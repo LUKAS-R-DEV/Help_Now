@@ -14,7 +14,7 @@ const adminRoutes = require('./backend/routes/adminRoutes');
 const app = express();
 
 app.use(cors({
-  origin: ['https://help-now-kappa.vercel.app'], 
+  origin: 'https://help-now-kappa.vercel.app', 
   credentials: true
 }));
 

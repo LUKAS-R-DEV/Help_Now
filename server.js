@@ -13,9 +13,8 @@ const adminRoutes = require('./backend/routes/adminRoutes');
 
 const app = express();
 
-// ✅ Habilita CORS com origem específica
 app.use(cors({
-  origin: ['http://localhost:5173'], 
+  origin: ['https://help-now.vercel.app'], 
   credentials: true
 }));
 

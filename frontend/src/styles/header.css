@@ -1,0 +1,115 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color:midnightblue;
+  color: white;
+  padding: 12px 20px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #ccc;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-logo {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.header-links {
+  display: flex;
+  gap: 18px;
+
+  align-items: center;
+  transition: max-height 0.3s ease;
+}
+
+.header-link {
+  color: #cfe8ff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.header-link:hover {
+  text-decoration: underline;
+  color: white;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.header-user-text {
+  font-size: 16px;
+  color: #bbdefb;
+}
+
+.header-logout {
+  background-color: #ef4444;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.header-logout:hover {
+  background-color: #dc2626;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .header-menu-btn {
+    display: block;
+  }
+
+  .header-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .header-links.ativo {
+    display: flex;
+  }
+
+  .header-user {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 12px;
+  }
+
+  .header-user-text {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 8px;
+  }
+}

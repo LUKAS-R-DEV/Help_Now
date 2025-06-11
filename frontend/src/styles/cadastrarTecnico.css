@@ -1,0 +1,133 @@
+/* Container centralizado */
+.cadastrar-tecnico-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f3f4f6; /* cinza claro */
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card branco com sombra e cantos arredondados */
+.cadastrar-tecnico-card {
+  background-color: #ffffff;
+  padding: 40px 35px;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(59, 130, 246, 0.25);
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cadastrar-tecnico-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.35);
+}
+
+/* Título */
+.cadastrar-tecnico-card h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* Mensagem (erro ou sucesso) */
+.cadastrar-tecnico-mensagem {
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+  padding: 12px 15px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+}
+
+/* Mensagem de erro */
+.cadastrar-tecnico-mensagem.erro {
+  background-color: #ef4444;
+  color: #fff;
+}
+
+/* Mensagem de sucesso */
+.cadastrar-tecnico-mensagem.sucesso {
+  background-color: #22c55e; /* verde */
+  color: white;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+}
+
+/* Formulário */
+.cadastrar-tecnico-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+   align-items: center; 
+}
+
+/* Inputs */
+.cadastrar-tecnico-form input {
+  padding: 14px 16px;
+  border: 1.5px solid #93c5fd;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline-offset: 2px;
+  font-family: inherit;
+}
+
+.cadastrar-tecnico-form input::placeholder {
+  color: #93c5fd;
+  font-style: italic;
+}
+
+.cadastrar-tecnico-form input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 8px #3b82f6;
+  outline: none;
+}
+
+/* Botão */
+.cadastrar-tecnico-form button {
+  background-color: #2563eb;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  letter-spacing: 0.5px;
+  user-select: none;
+  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+  text-align: center;
+}
+
+.cadastrar-tecnico-form button:hover,
+.cadastrar-tecnico-form button:focus {
+  background-color: #1e40af;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.5);
+  outline: none;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .cadastrar-tecnico-card {
+    padding: 30px 25px;
+    max-width: 320px;
+  }
+
+  .cadastrar-tecnico-card h2 {
+    font-size: 1.6rem;
+  }
+
+  .cadastrar-tecnico-form button {
+    font-size: 16px;
+    padding: 12px;
+  }
+}

@@ -1,0 +1,220 @@
+.container {
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+  background-color: var(--neutral-100);
+  min-height: 80vh;
+
+  max-width: 900px;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.title {
+  color: var(--primary-700);
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.search-container {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 50%;
+  min-width: 280px;
+  padding: 0.5rem;
+  border: 1px solid var(--neutral-300);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: var(--primary-400);
+  outline: none;
+  box-shadow: 0 0 5px var(--primary-400);
+}
+
+.btn-primary {
+  background-color: var(--primary-600);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  margin: 0 auto 1rem auto;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-700);
+}
+
+.loading-text,
+.no-results {
+  font-size: 1rem;
+  color: var(--neutral-700);
+}
+
+/* Cards container: flex wrap com espaçamento */
+.cards-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+/* Card individual */
+.ticket-card {
+  background-color: white;
+  width: 280px;
+  padding: 1.2rem 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.ticket-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Título do chamado */
+.ticket-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--neutral-800);
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Status com badge colorido */
+.ticket-status {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: white;
+  margin-bottom: 0.7rem;
+  width: fit-content;
+  user-select: none;
+}
+
+.ticket-status.Aberto {
+  background-color: #2563eb; /* azul */
+}
+
+.ticket-status.EmAndamento {
+  background-color: #f59e0b; /* amarelo-escuro */
+}
+
+.ticket-status.Concluido {
+  background-color: #16a34a; /* verde */
+}
+
+.ticket-status.Cancelado {
+  background-color: #ef4444; /* vermelho */
+}
+
+/* Categoria */
+.ticket-category {
+  font-size: 0.95rem;
+  color: var(--neutral-600);
+  margin-bottom: 1.1rem;
+  font-style: italic;
+}
+
+/* Botão detalhes */
+.details-link {
+  align-self: flex-start;
+  background-color: var(--primary-600);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.details-link:hover {
+  background-color: var(--primary-700);
+}
+@media (max-width: 640px) {
+  .dashboard-filters {
+    flex-direction: column;
+  }
+
+  .dashboard-search {
+    width: 90%;
+  }
+
+  .chamados-grid {
+    justify-content: center;
+  }
+
+  .chamado-card {
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .dashboard-actions button {
+    width: 90%;
+    font-size: 1rem;
+  }
+
+  .dashboard-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .dashboard-filters select,
+  .dashboard-search {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 0.5rem;
+  }
+
+  .chamado-card {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .chamado-card h3 {
+    font-size: 1rem;
+  }
+
+  .chamado-detalhes {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .dashboard-container h2 {
+    font-size: 1.25rem;
+  }
+}

@@ -1,11 +1,10 @@
+
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api';
 import ModalMensagem from '../components/ModalMensagem';
 import '../styles/login.css';
-
-// Importar ícones do react-icons
-import { FiMail, FiLock, FiLogIn, FiHeadphones } from 'react-icons/fi'; // Headset como "logo"
+import { FiMail, FiLock, FiLogIn, FiHeadphones } from 'react-icons/fi';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -14,21 +13,33 @@ export default function Login() {
   const [tipoMsg, setTipoMsg] = useState('');
   const navigate = useNavigate();
 
+  const limpaMensagem = (ms = 3000) =>
+    setTimeout(() => setMensagem(''), ms);
+
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!emailValido) {
+      setTipoMsg('erro');
+      setMensagem('Digite um e‑mail válido.');
+      return limpaMensagem();
+    }
+
     try {
       const res = await api.post('/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
-      setMensagem('Login realizado com sucesso!');
       setTipoMsg('sucesso');
+      setMensagem('Login realizado com sucesso!');
       setTimeout(() => {
         setMensagem('');
         navigate('/');
       }, 1500);
     } catch (err) {
-      setMensagem('Credenciais inválidas');
       setTipoMsg('erro');
-      setTimeout(() => setMensagem(''), 4000);
+      setMensagem('Credenciais inválidas. Verifique e tente novamente.');
+      limpaMensagem(4000);
     }
   };
 
@@ -39,8 +50,7 @@ export default function Login() {
           <FiHeadphones size={64} color="#0284c7" />
           <h2>Help Now</h2>
         </div>
-        
-        
+
         <p>Acesse sua conta e gerencie seus chamados</p>
 
         <form onSubmit={handleLogin} className="login-form">

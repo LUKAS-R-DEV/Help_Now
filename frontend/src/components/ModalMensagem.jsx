@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-export default function ModalMensagem({ mensagem, tipo, onClose, duracao = 1000 }) {
+export default function ModalMensagem({ mensagem, tipo, onClose, duracao = 5000 }) {
 
 
   useEffect(() => {

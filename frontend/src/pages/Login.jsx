@@ -13,7 +13,7 @@ export default function Login() {
   const [tipoMsg, setTipoMsg] = useState('');
   const navigate = useNavigate();
 
-  const limpaMensagem = (ms = 3000) =>
+  const limpaMensagem = (ms = 5000) =>
     setTimeout(() => setMensagem(''), ms);
 
   const handleLogin = async (e) => {

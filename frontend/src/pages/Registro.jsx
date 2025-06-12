@@ -15,13 +15,13 @@ export default function Registro() {
   const [tipoMensagem, setTipoMensagem] = useState('');
   const navigate = useNavigate();
 
-  const limpaMensagem = (ms = 3000) =>
+  const limpaMensagem = (ms = 5000) =>
     setTimeout(() => setMensagem(''), ms);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ 1. Validação de e‑mail
+    
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!emailValido) {
       setTipoMensagem('erro');
@@ -29,14 +29,13 @@ export default function Registro() {
       return limpaMensagem();
     }
 
-    // ✅ 2. Senhas iguais
+    
     if (senha !== confirmarSenha) {
       setTipoMensagem('erro');
       setMensagem('As senhas não coincidem.');
       return limpaMensagem();
     }
 
-    // ✅ 3. Tamanho mínimo da senha
     if (senha.length < 6) {
       setTipoMensagem('erro');
       setMensagem('A senha deve ter pelo menos 6 caracteres.');

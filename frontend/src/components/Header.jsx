@@ -55,8 +55,11 @@ export default function Header() {
         <button
           className="header-logout"
           onClick={() => {
-            localStorage.removeItem('token');
-            window.location.href = '/login';
+            const confirmar = window.confirm('Deseja realmente sair?');
+               if (confirmar) {
+                localStorage.removeItem('token');
+                 window.location.href = '/login';
+               }
           }}
           title="Sair"
         >

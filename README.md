@@ -1,4 +1,3 @@
-📄 Modelo completo de README.md para seu projeto Help Desk
 
 # 📞 Help Desk API
 

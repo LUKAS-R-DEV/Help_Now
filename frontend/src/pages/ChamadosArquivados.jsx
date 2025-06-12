@@ -3,7 +3,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/index';
 import '../styles/chamadosArquivados.css';
-import { FaSearch, FaPlus, FaExclamationCircle, FaClipboardList, FaInfoCircle } from 'react-icons/fa';
+import {
+  FaSearch,
+  FaPlus,
+  FaExclamationCircle,
+  FaClipboardList,
+  FaInfoCircle
+} from 'react-icons/fa';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 export default function ChamadosArquivados() {
@@ -18,7 +24,7 @@ export default function ChamadosArquivados() {
         const response = await api.get('/tickets');
         setChamados(response.data.filter(c => c.archived));
       } catch (err) {
-        toast.error('Erro ao buscar chamados.')
+        toast.error('Erro ao buscar chamados.');
         console.error('Erro ao buscar chamados:', err);
       } finally {
         setLoading(false);
@@ -27,7 +33,7 @@ export default function ChamadosArquivados() {
     fetchChamados();
   }, []);
 
-   if (loading) return <LoadingSpinner />;
+  if (loading) return <LoadingSpinner />;
 
   const filteredChamados = chamados.filter(chamado => {
     const matchStatus = statusFilter === 'Todos' || chamado.status === statusFilter;
@@ -41,7 +47,7 @@ export default function ChamadosArquivados() {
     <div className="container">
       <h2 className="title">
         <FaClipboardList style={{ marginRight: '8px' }} />
-        Chamados Concluidos
+        Chamados Concluídos
       </h2>
 
       <div className="search-container">
@@ -92,14 +98,6 @@ export default function ChamadosArquivados() {
           ))}
         </div>
       )}
-
-      {
-      }
-      <ModalMensagem
-        mensagem={modalMsg}
-        tipo={modalTipo}
-        onClose={() => setModalMsg('')}
-      />
     </div>
   );
 }

@@ -10,6 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 export default function Dashboard() {
   const isFetching = useRef(false);
+  const isInitialLoad = useRef(true);
   const [chamados, setChamados] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('Todos');
@@ -21,22 +22,31 @@ export default function Dashboard() {
     const fetchChamados = async (mostrarLoading = true) => {
       if (isFetching.current) return;
       isFetching.current = true;
-      if (mostrarLoading) setLoading(true);
+      
+      if (mostrarLoading && isInitialLoad.current) {
+        setLoading(true);
+      }
+      
       try {
         const response = await api.get('/tickets');
         setChamados(response.data.filter(c => !c.archived));
       } catch (err) {
-        toast.error('Erro ao buscar chamados.')
+        toast.error('Erro ao buscar chamados.');
         console.error('Erro ao buscar chamados:', err);
       } finally {
-        if (mostrarLoading) setLoading(false);
+        if (mostrarLoading && isInitialLoad.current) {
+          setLoading(false);
+          isInitialLoad.current = false;
+        }
         isFetching.current = false;
       }
     };
 
     fetchChamados();
 
-    const interval = setInterval(fetchChamados, 10000);
+    const interval = setInterval(() => {
+      fetchChamados(false);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);

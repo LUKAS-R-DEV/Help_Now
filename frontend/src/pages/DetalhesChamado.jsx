@@ -26,6 +26,7 @@ export default function DetalhesChamado() {
   const [novoStatus, setNovoStatus] = useState('');
   const [loading, setLoading] = useState(true);
   const isFetching = useRef(false);
+  const isInitialLoad = useRef(true);
 
   const usuario = jwtDecode(localStorage.getItem('token'));
 
@@ -42,7 +43,11 @@ export default function DetalhesChamado() {
   const carregarDados = async (mostrarLoading = true) => {
     if (isFetching.current) return;
     isFetching.current = true;
-    if (mostrarLoading) setLoading(true);
+    
+    if (mostrarLoading && isInitialLoad.current) {
+      setLoading(true);
+    }
+    
     try {
       const [resChamado, resComentarios, resChat] = await Promise.all([
         api.get(`/tickets/${id}`),
@@ -55,7 +60,10 @@ export default function DetalhesChamado() {
     } catch {
       toast.error('Erro ao carregar dados.');
     } finally {
-      if (mostrarLoading) setLoading(false);
+      if (mostrarLoading && isInitialLoad.current) {
+        setLoading(false);
+        isInitialLoad.current = false;
+      }
       isFetching.current = false;
     }
   };
@@ -67,7 +75,7 @@ export default function DetalhesChamado() {
       await api.post(`/comentarios/${id}`, { mensagem: mensagemComentario });
       setMensagemComentario('');
       toast.success('Comentário enviado.');
-      carregarDados();
+      carregarDados(false);
     } catch {
       toast.error('Erro ao enviar comentário.');
     }
@@ -80,7 +88,7 @@ export default function DetalhesChamado() {
       await api.post(`/chat/${id}`, { texto: mensagemChat });
       setMensagemChat('');
       toast.success('Mensagem enviada.');
-      carregarDados();
+      carregarDados(false);
     } catch {
       toast.error('Erro ao enviar mensagem de chat.');
     }
@@ -91,7 +99,7 @@ export default function DetalhesChamado() {
     try {
       await api.put(`/tickets/${id}/status`, { status: novoStatus });
       toast.success('Status atualizado.');
-      carregarDados();
+      carregarDados(false);
     } catch {
       toast.error('Erro ao atualizar status.');
     }

@@ -10,12 +10,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [mensagem, setMensagem] = useState('');
-  const [tipoMsg, setTipoMsg] = useState('');
   const navigate = useNavigate();
-
-  const limpaMensagem = (ms = 5000) =>
-    setTimeout(() => setMensagem(''), ms);
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -36,9 +31,9 @@ export default function Login() {
         navigate('/');
       }, 1500);
     } catch (err) {
-      setTipoMsg('erro');
-      setMensagem('Credenciais inválidas. Verifique e tente novamente.');
-      limpaMensagem(4000);
+      
+      toast.error('Credenciais inválidas. Verifique e tente novamente.');
+      
     }
   };
 
@@ -86,11 +81,7 @@ export default function Login() {
         </div>
       </div>
 
-      <ModalMensagem
-        mensagem={mensagem}
-        tipo={tipoMsg}
-        onClose={() => setMensagem('')}
-      />
+     
     </div>
   );
 }

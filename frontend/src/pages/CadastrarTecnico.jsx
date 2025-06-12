@@ -1,15 +1,15 @@
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { MdPerson, MdEmail, MdLock, MdHowToReg } from 'react-icons/md';
 
 import api from '../api';
-import ModalMensagem from '../components/ModalMensagem';
 import '../styles/cadastrarTecnico.css';
 export default function CadastrarTecnico() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [modalMsg, setModalMsg] = useState('');
-  const [modalTipo, setModalTipo] = useState('');
+  
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,14 +23,12 @@ export default function CadastrarTecnico() {
           },
         }
       );
-      setModalMsg('Técnico cadastrado com sucesso!');
-      setModalTipo('sucesso');
+      toast.success('Técnico cadastrado com sucesso!');
       setNome('');
       setEmail('');
       setSenha('');
     } catch (err) {
-      setModalMsg(err.response?.data?.error || 'Erro ao cadastrar técnico.');
-      setModalTipo('erro');
+      toast.error(err.response?.data?.error || 'Erro ao cadastrar técnico.')
     }
   };
 
@@ -76,11 +74,7 @@ export default function CadastrarTecnico() {
           </button>
         </form>
       </div>
-      <ModalMensagem
-        mensagem={modalMsg}
-        tipo={modalTipo}
-        onClose={() => setModalMsg('')}
-      />
+
     </div>
   );
 }

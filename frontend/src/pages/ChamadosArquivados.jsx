@@ -1,8 +1,8 @@
+import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/index';
 import '../styles/chamadosArquivados.css';
-import ModalMensagem from '../components/ModalMensagem';
 import { FaSearch, FaPlus, FaExclamationCircle, FaClipboardList, FaInfoCircle } from 'react-icons/fa';
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -11,8 +11,6 @@ export default function ChamadosArquivados() {
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('Todos');
   const [searchText, setSearchText] = useState('');
-  const [modalMsg, setModalMsg] = useState('');
-  const [modalTipo, setModalTipo] = useState('');
 
   useEffect(() => {
     const fetchChamados = async () => {
@@ -20,8 +18,7 @@ export default function ChamadosArquivados() {
         const response = await api.get('/tickets');
         setChamados(response.data.filter(c => c.archived));
       } catch (err) {
-        setModalMsg('Erro ao buscar chamados.');
-        setModalTipo('erro');
+        toast.error('Erro ao buscar chamados.')
         console.error('Erro ao buscar chamados:', err);
       } finally {
         setLoading(false);

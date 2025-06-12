@@ -1,9 +1,9 @@
+import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiGrid, FiPlusCircle, FiCheckCircle } from 'react-icons/fi';
 import api from '../api/index';
 import '../styles/dashboard.css';
-import ModalMensagem from '../components/ModalMensagem';
 import LoadingSpinner from '../components/LoadingSpinner';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -15,8 +15,6 @@ export default function Dashboard() {
   const [statusFilter, setStatusFilter] = useState('Todos');
   const [searchText, setSearchText] = useState('');
   const [dateFilter, setDateFilter] = useState(null);
-  const [modalMsg, setModalMsg] = useState('');
-  const [modalTipo, setModalTipo] = useState('');
   const limiteHoras = 48;
 
   useEffect(() => {
@@ -28,8 +26,7 @@ export default function Dashboard() {
       const response = await api.get('/tickets');
       setChamados(response.data.filter(c => !c.archived));
     } catch (err) {
-      setModalMsg('Erro ao buscar chamados.');
-      setModalTipo('erro');
+      toast.error('Erro ao buscar chamados.')
       console.error('Erro ao buscar chamados:', err);
     } finally {
       if(mostrarLoading) setLoading(false);
@@ -177,12 +174,6 @@ if (loading) return <LoadingSpinner />;
           })}
         </div>
       )}
-
-      <ModalMensagem
-        mensagem={modalMsg}
-        tipo={modalTipo}
-        onClose={() => setModalMsg('')}
-      />
     </div>
   );
 }

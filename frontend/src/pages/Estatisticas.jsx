@@ -1,10 +1,10 @@
+import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import api from '../api';
 import {jwtDecode} from 'jwt-decode';
 import { 
   BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer 
-} from 'recharts';
-import ModalMensagem from '../components/ModalMensagem';
+} from 'recharts';;
 import { 
   MdInsertChart, MdOutlineReportProblem, MdAutorenew, MdCheckCircleOutline 
 } from 'react-icons/md';
@@ -18,8 +18,6 @@ export default function Estatisticas() {
     concluido: 0,
   });
   const [loading, setLoading] = useState(true);
-  const [modalMsg, setModalMsg] = useState('');
-  const [modalTipo, setModalTipo] = useState('');
   const usuario = jwtDecode(localStorage.getItem('token'));
 
   useEffect(() => {
@@ -39,7 +37,7 @@ export default function Estatisticas() {
         });
         setStats(novoStats);
       } catch {
-        abrirModal('Erro ao carregar estatísticas.', 'erro');
+        toast.error('Erro ao carregar estatísticas.')
       }finally{
         setLoading(false);
       }
@@ -47,16 +45,6 @@ export default function Estatisticas() {
 
     carregarEstatisticas();
   }, [usuario.role]);
-
-  const abrirModal = (msg, tipo) => {
-    setModalMsg(msg);
-    setModalTipo(tipo);
-  };
-
-  const fecharModal = () => {
-    setModalMsg('');
-    setModalTipo('');
-  };
 
   const dataGrafico = [
     { status: 'Aberto', total: stats.aberto || 0 },
@@ -110,12 +98,8 @@ export default function Estatisticas() {
         </ResponsiveContainer>
       </div>
 
-      {/* Modal */}
-      <ModalMensagem
-        mensagem={modalMsg}
-        tipo={modalTipo}
-        onClose={fecharModal}
-      />
+      {}
+      
     </div>
   );
 }

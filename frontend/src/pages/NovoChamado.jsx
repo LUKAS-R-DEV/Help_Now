@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
@@ -12,7 +13,7 @@ import {
 } from "lucide-react";
 
 import LoadingSpinner from "../components/LoadingSpinner";
-import ModalMensagem from "../components/ModalMensagem";
+
 
 export default function NovoChamado() {
   const navigate = useNavigate();
@@ -27,8 +28,7 @@ export default function NovoChamado() {
   const [loadingCategorias, setLoadingCategorias] = useState(true); 
   const [submitting, setSubmitting] = useState(false);
 
-  const [modalMsg, setModalMsg] = useState("");
-  const [modalTipo, setModalTipo] = useState(""); 
+
 
   useEffect(() => {
     (async () => {
@@ -38,19 +38,13 @@ export default function NovoChamado() {
         });
         setCategorias(res.data);
       } catch {
-        abrirModal("Erro ao carregar categorias.", "erro");
+        toast.error('Erro ao carregar categorias.');
       } finally {
         setLoadingCategorias(false);
       }
     })();
   }, []);
 
-  const abrirModal = (msg, tipo) => {
-    setModalMsg(msg);
-    setModalTipo(tipo);
-    setTimeout(() => setModalMsg(""), 2000);
-  };
-  const fecharModal = () => setModalMsg("");
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -62,11 +56,11 @@ export default function NovoChamado() {
       await api.post("/tickets", formData, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      abrirModal("Chamado criado com sucesso!", "sucesso");
+      toast.success("Chamado criado com sucesso!");
       setFormData({ title: "", description: "", categoria: "" });
       setTimeout(() => navigate("/"), 1500);
     } catch (err) {
-      abrirModal(err.response?.data?.error || "Erro ao criar chamado.", "erro");
+      toast.error(err.response?.data?.error || "Erro ao criar chamado.", "erro")
     } finally {
       setSubmitting(false);
     }
@@ -168,11 +162,7 @@ export default function NovoChamado() {
       </form>
 
       {}
-      <ModalMensagem
-        mensagem={modalMsg}
-        tipo={modalTipo}
-        onClose={fecharModal}
-      />
+      
     </div>
   );
 }

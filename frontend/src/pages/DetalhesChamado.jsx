@@ -1,8 +1,8 @@
+import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../api/index';
 import { jwtDecode } from 'jwt-decode';
-import ModalMensagem from '../components/ModalMensagem';
 import {
   FiClipboard,
   FiAlignLeft,
@@ -24,7 +24,6 @@ export default function DetalhesChamado() {
   const [chat, setChat] = useState([]);
   const [mensagemComentario, setMensagemComentario] = useState('');
   const [mensagemChat, setMensagemChat] = useState('');
-  const [modal, setModal] = useState({ mensagem: '', tipo: '' });
   const [novoStatus, setNovoStatus] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -54,26 +53,22 @@ export default function DetalhesChamado() {
       setComentarios(resComentarios.data);
       setChat(resChat.data);
     } catch {
-      abrirModal('Erro ao carregar dados.', 'erro');
+      toast.error('Erro ao carregar dados.');
     } finally {
       if(mostrarLoading)setLoading(false);
       isFetching.current = false;
     }
   };
-
-  const abrirModal = (mensagem, tipo) => setModal({ mensagem, tipo });
-  const fecharModal = () => setModal({ mensagem: '', tipo: '' });
-
   const enviarComentario = async e => {
     e.preventDefault();
     if (!mensagemComentario.trim()) return;
     try {
       await api.post(`/comentarios/${id}`, { mensagem: mensagemComentario });
       setMensagemComentario('');
-      abrirModal('Comentário enviado.', 'sucesso');
+      toast.success('Comentário enviado.');
       carregarDados();
     } catch {
-      abrirModal('Erro ao enviar comentário.', 'erro');
+      toast.error('Erro ao enviar comentário.');
     }
   };
 
@@ -83,10 +78,10 @@ export default function DetalhesChamado() {
     try {
       await api.post(`/chat/${id}`, { texto: mensagemChat });
       setMensagemChat('');
-      abrirModal('Mensagem enviada.', 'sucesso');
+      toast.success('Mensagem enviada.');
       carregarDados();
     } catch {
-      abrirModal('Erro ao enviar mensagem de chat.', 'erro');
+      toast.error('Erro ao enviar mensagem de chat.')
     }
   };
 
@@ -94,10 +89,10 @@ export default function DetalhesChamado() {
     if (!novoStatus) return;
     try {
       await api.put(`/tickets/${id}/status`, { status: novoStatus });
-      abrirModal('Status atualizado.', 'sucesso');
+      toast.success('Status atualizado.');
       carregarDados();
     } catch {
-      abrirModal('Erro ao atualizar status.', 'erro');
+      toast.error('Erro ao atualizar status.');
     }
   };
 
@@ -195,11 +190,6 @@ export default function DetalhesChamado() {
         )}
       </section>
 
-      <ModalMensagem
-        mensagem={modal.mensagem}
-        tipo={modal.tipo}
-        onClose={fecharModal}
-      />
     </div>
   );
 }

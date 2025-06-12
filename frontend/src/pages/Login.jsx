@@ -2,7 +2,6 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api';
-import ModalMensagem from '../components/ModalMensagem';
 import '../styles/login.css';
 import { FiMail, FiLock, FiLogIn, FiHeadphones } from 'react-icons/fi';
 

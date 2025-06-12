@@ -1,12 +1,12 @@
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 import api from '../api';
-import ModalMensagem from '../components/ModalMensagem'; 
 import '../styles/cadastrarCategoria.css'
 
 export default function CadastrarCategoria() {
   const [nome, setNome] = useState('');
-  const [modalMsg, setModalMsg] = useState('');
-  const [modalTipo, setModalTipo] = useState('');
+ 
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,12 +16,12 @@ export default function CadastrarCategoria() {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-      setModalMsg('Categoria criada com sucesso!');
-      setModalTipo('sucesso');
+      toast.success('Categoria criada com sucesso!');
+      
       setNome('');
     } catch (err) {
-      setModalMsg(err.response?.data?.error || 'Erro ao criar categoria.');
-      setModalTipo('erro');
+      toast.error(err.response?.data?.error || 'Erro ao criar categoria.');
+      
     }
   };
 
@@ -44,11 +44,7 @@ export default function CadastrarCategoria() {
       </div>
 
       {}
-      <ModalMensagem
-        mensagem={modalMsg}
-        tipo={modalTipo}
-        onClose={() => setModalMsg('')}
-      />
+      
     </div>
   );
 }

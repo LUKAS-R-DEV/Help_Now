@@ -1,4 +1,4 @@
-
+import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import api from '../api/index';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,7 @@ export default function Dashboard() {
         const res = await api.get('/tickets');
         setTickets(res.data);
       } catch (err) {
+        toast.error('Erro ao carregar chamados:');
         console.error('Erro ao carregar chamados:', err);
       }
     }

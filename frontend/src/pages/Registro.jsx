@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiUserPlus } from 'react-icons/fi';
 import api from '../api';
-import ModalMensagem from '../components/ModalMensagem';
 import '../styles/registro.css';
 
 export default function Registro() {
@@ -28,12 +27,13 @@ export default function Registro() {
     if (senha !== confirmarSenha) {
       
       toast.error('As senhas não coincidem.');
+      return;
       
     }
 
     if (senha.length < 6) {
       toast.warning('A senha deve ter pelo menos 6 caracteres.');
-      
+      return;
     }
 
     try {

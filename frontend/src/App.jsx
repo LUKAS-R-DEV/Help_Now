@@ -1,3 +1,5 @@
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {jwtDecode} from 'jwt-decode';
@@ -63,6 +65,7 @@ function AppWrapper() {
         <Route path="/cadastrar-tecnico" element={<PrivateRoute><CadastrarTecnico /></PrivateRoute>} />
         <Route path="/cadastrar-categoria" element={<PrivateRoute><CadastrarCategoria/></PrivateRoute>}/>
       </Routes>
+      <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 }

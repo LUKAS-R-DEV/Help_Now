@@ -1,4 +1,4 @@
-
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FiUserPlus } from 'react-icons/fi';
@@ -12,34 +12,28 @@ export default function Registro() {
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [mensagem, setMensagem] = useState('');
-  const [tipoMensagem, setTipoMensagem] = useState('');
+  
   const navigate = useNavigate();
-
-  const limpaMensagem = (ms = 5000) =>
-    setTimeout(() => setMensagem(''), ms);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!emailValido) {
-      setTipoMensagem('erro');
-      setMensagem('Digite um e‑mail válido.');
-      return limpaMensagem();
+      toast.error('Digite um e‑mail válido.');
+      
     }
 
     
     if (senha !== confirmarSenha) {
-      setTipoMensagem('erro');
-      setMensagem('As senhas não coincidem.');
-      return limpaMensagem();
+      
+      toast.error('As senhas não coincidem.');
+      
     }
 
     if (senha.length < 6) {
-      setTipoMensagem('erro');
-      setMensagem('A senha deve ter pelo menos 6 caracteres.');
-      return limpaMensagem();
+      toast.warning('A senha deve ter pelo menos 6 caracteres.');
+      
     }
 
     try {
@@ -49,15 +43,12 @@ export default function Registro() {
         password: senha,
       });
 
-      setTipoMensagem('sucesso');
-      setMensagem('Registro realizado com sucesso! Você será redirecionado.');
+      
+      toast.success('Registro realizado com sucesso! Você será redirecionado.');
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
-      setTipoMensagem('erro');
-      setMensagem(
-        err.response?.data?.error || 'Erro ao registrar usuário.'
-      );
-      limpaMensagem(4000);
+      toast.error(err.response?.data?.error || 'Erro ao registrar usuário.');
+      
     }
   };
 
@@ -110,11 +101,7 @@ export default function Registro() {
         </p>
       </div>
 
-      <ModalMensagem
-        mensagem={mensagem}
-        tipo={tipoMensagem}
-        onClose={() => setMensagem('')}
-      />
+      
     </div>
   );
 }

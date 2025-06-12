@@ -1,4 +1,4 @@
-
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api';
@@ -22,16 +22,15 @@ export default function Login() {
     
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!emailValido) {
-      setTipoMsg('erro');
-      setMensagem('Digite um e‑mail válido.');
+      toast.error('Digite um e‑mail válido.');
       return limpaMensagem();
     }
 
     try {
       const res = await api.post('/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
-      setTipoMsg('sucesso');
-      setMensagem('Login realizado com sucesso!');
+      
+      toast.success('Login realizado com sucesso!');
       setTimeout(() => {
         setMensagem('');
         navigate('/');

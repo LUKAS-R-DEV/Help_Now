@@ -9,6 +9,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export default function Dashboard() {
+  const isFetching = useRef(false);
   const [chamados, setChamados] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('Todos');
@@ -19,7 +20,10 @@ export default function Dashboard() {
   const limiteHoras = 48;
 
   useEffect(() => {
-  const fetchChamados = async () => {
+  const fetchChamados = async (mostrarLoading=true) => {
+     if (isFetching.current) return;
+      isFetching.current = true;
+    if(mostrarLoading) setLoading(true);
     try {
       const response = await api.get('/tickets');
       setChamados(response.data.filter(c => !c.archived));
@@ -28,7 +32,8 @@ export default function Dashboard() {
       setModalTipo('erro');
       console.error('Erro ao buscar chamados:', err);
     } finally {
-      setLoading(false);
+      if(mostrarLoading) setLoading(false);
+      isFetching.current = false;
     }
   };
 

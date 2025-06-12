@@ -17,6 +17,7 @@ import '../styles/detalhesChamado.css';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 export default function DetalhesChamado() {
+  isFetching.current = false;
   const { id } = useParams();
   const [chamado, setChamado] = useState(null);
   const [comentarios, setComentarios] = useState([]);
@@ -40,6 +41,8 @@ export default function DetalhesChamado() {
 }, [id]);
 
   const carregarDados = async (mostrarLoading=true) => {
+     if (isFetching.current) return;
+      isFetching.current = true;
     if (mostrarLoading) setLoading(true);
     try {
       const [resChamado, resComentarios, resChat] = await Promise.all([
@@ -54,6 +57,7 @@ export default function DetalhesChamado() {
       abrirModal('Erro ao carregar dados.', 'erro');
     } finally {
       if(mostrarLoading)setLoading(false);
+      isFetching.current = false;
     }
   };
 

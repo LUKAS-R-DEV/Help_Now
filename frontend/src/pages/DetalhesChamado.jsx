@@ -33,14 +33,14 @@ export default function DetalhesChamado() {
   carregarDados(); 
 
   const interval = setInterval(() => {
-    carregarDados(); 
+    carregarDados(false); 
   }, 10000);
 
-  return () => clearInterval(interval); // limpa intervalo ao desmontar
+  return () => clearInterval(interval); 
 }, [id]);
 
-  const carregarDados = async () => {
-    setLoading(true);
+  const carregarDados = async (mostrarLoading=true) => {
+    if (mostrarLoading) setLoading(true);
     try {
       const [resChamado, resComentarios, resChat] = await Promise.all([
         api.get(`/tickets/${id}`),
@@ -53,7 +53,7 @@ export default function DetalhesChamado() {
     } catch {
       abrirModal('Erro ao carregar dados.', 'erro');
     } finally {
-      setLoading(false);
+      if(mostrarLoading)setLoading(false);
     }
   };
 

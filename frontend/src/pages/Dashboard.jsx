@@ -19,22 +19,28 @@ export default function Dashboard() {
   const limiteHoras = 48;
 
   useEffect(() => {
-    const fetchChamados = async () => {
-      try {
-        const response = await api.get('/tickets');
-        setChamados(response.data.filter(c => !c.archived));
-      } catch (err) {
-        setModalMsg('Erro ao buscar chamados.');
-        setModalTipo('erro');
-        console.error('Erro ao buscar chamados:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchChamados();
-  }, []);
+  const fetchChamados = async () => {
+    try {
+      const response = await api.get('/tickets');
+      setChamados(response.data.filter(c => !c.archived));
+    } catch (err) {
+      setModalMsg('Erro ao buscar chamados.');
+      setModalTipo('erro');
+      console.error('Erro ao buscar chamados:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  if (loading) return <LoadingSpinner />;
+  fetchChamados(); 
+
+  const interval = setInterval(fetchChamados, 10000); 
+
+  return () => clearInterval(interval); 
+}, []);
+
+
+if (loading) return <LoadingSpinner />;
 
   
   const formatDateToLocalYMD = (isoDateStr) => {

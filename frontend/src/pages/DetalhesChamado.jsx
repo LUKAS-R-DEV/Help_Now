@@ -30,8 +30,14 @@ export default function DetalhesChamado() {
   const usuario = jwtDecode(localStorage.getItem('token'));
 
   useEffect(() => {
-    carregarDados();
-  }, [id]);
+  carregarDados(); 
+
+  const interval = setInterval(() => {
+    carregarDados(); 
+  }, 10000);
+
+  return () => clearInterval(interval); // limpa intervalo ao desmontar
+}, [id]);
 
   const carregarDados = async () => {
     setLoading(true);
@@ -193,3 +199,4 @@ export default function DetalhesChamado() {
     </div>
   );
 }
+

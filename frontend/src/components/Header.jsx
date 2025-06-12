@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { FiMenu, FiLogOut, FiHome, FiUserPlus, FiBarChart2, FiLayers } from 'react-icons/fi';
 import '../styles/header.css';
 
 export default function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
+  const navigate = useNavigate();
+
   let usuario;
   try {
     usuario = jwtDecode(localStorage.getItem('token'));
@@ -14,6 +16,14 @@ export default function Header() {
   }
 
   const toggleMenu = () => setMenuAberto(!menuAberto);
+
+  const handleLogout = () => {
+    const confirmar = window.confirm('Deseja realmente sair?');
+    if (confirmar) {
+      localStorage.removeItem('token');
+      navigate('/login');
+    }
+  };
 
   return (
     <nav className="header-container">
@@ -52,17 +62,7 @@ export default function Header() {
             Olá, <strong>{usuario.name || usuario.email}</strong>
           </span>
         )}
-        <button
-          className="header-logout"
-          onClick={() => {
-            const confirmar = window.confirm('Deseja realmente sair?');
-               if (confirmar) {
-                localStorage.removeItem('token');
-                 window.location.href = '/login';
-               }
-          }}
-          title="Sair"
-        >
+        <button className="header-logout" onClick={handleLogout} title="Sair">
           <FiLogOut size={18} />
         </button>
       </div>

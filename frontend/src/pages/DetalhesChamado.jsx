@@ -1,5 +1,5 @@
+import { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../api/index';
 import { jwtDecode } from 'jwt-decode';
@@ -17,7 +17,6 @@ import '../styles/detalhesChamado.css';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 export default function DetalhesChamado() {
-  isFetching.current = false;
   const { id } = useParams();
   const [chamado, setChamado] = useState(null);
   const [comentarios, setComentarios] = useState([]);
@@ -26,22 +25,23 @@ export default function DetalhesChamado() {
   const [mensagemChat, setMensagemChat] = useState('');
   const [novoStatus, setNovoStatus] = useState('');
   const [loading, setLoading] = useState(true);
+  const isFetching = useRef(false);
 
   const usuario = jwtDecode(localStorage.getItem('token'));
 
   useEffect(() => {
-  carregarDados(); 
+    carregarDados();
 
-  const interval = setInterval(() => {
-    carregarDados(false); 
-  }, 10000);
+    const interval = setInterval(() => {
+      carregarDados(false);
+    }, 10000);
 
-  return () => clearInterval(interval); 
-}, [id]);
+    return () => clearInterval(interval);
+  }, [id]);
 
-  const carregarDados = async (mostrarLoading=true) => {
-     if (isFetching.current) return;
-      isFetching.current = true;
+  const carregarDados = async (mostrarLoading = true) => {
+    if (isFetching.current) return;
+    isFetching.current = true;
     if (mostrarLoading) setLoading(true);
     try {
       const [resChamado, resComentarios, resChat] = await Promise.all([
@@ -55,10 +55,11 @@ export default function DetalhesChamado() {
     } catch {
       toast.error('Erro ao carregar dados.');
     } finally {
-      if(mostrarLoading)setLoading(false);
+      if (mostrarLoading) setLoading(false);
       isFetching.current = false;
     }
   };
+
   const enviarComentario = async e => {
     e.preventDefault();
     if (!mensagemComentario.trim()) return;
@@ -81,7 +82,7 @@ export default function DetalhesChamado() {
       toast.success('Mensagem enviada.');
       carregarDados();
     } catch {
-      toast.error('Erro ao enviar mensagem de chat.')
+      toast.error('Erro ao enviar mensagem de chat.');
     }
   };
 
@@ -103,7 +104,9 @@ export default function DetalhesChamado() {
 
   return (
     <div className="container-detalhes-chamado">
-      <h2 className="title"><FiClipboard className="icon" size={24} /> Detalhes do Chamado</h2>
+      <h2 className="title">
+        <FiClipboard className="icon" size={24} /> Detalhes do Chamado
+      </h2>
 
       <div className="info-chamado">
         <p><FiAlignLeft className="icon" size={18} /><strong> Título:</strong> {chamado.title}</p>
@@ -189,8 +192,6 @@ export default function DetalhesChamado() {
           </form>
         )}
       </section>
-
     </div>
   );
 }
-

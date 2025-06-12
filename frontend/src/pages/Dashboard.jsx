@@ -1,5 +1,5 @@
+import { useState, useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiGrid, FiPlusCircle, FiCheckCircle } from 'react-icons/fi';
 import api from '../api/index';
@@ -18,33 +18,31 @@ export default function Dashboard() {
   const limiteHoras = 48;
 
   useEffect(() => {
-  const fetchChamados = async (mostrarLoading=true) => {
-     if (isFetching.current) return;
+    const fetchChamados = async (mostrarLoading = true) => {
+      if (isFetching.current) return;
       isFetching.current = true;
-    if(mostrarLoading) setLoading(true);
-    try {
-      const response = await api.get('/tickets');
-      setChamados(response.data.filter(c => !c.archived));
-    } catch (err) {
-      toast.error('Erro ao buscar chamados.')
-      console.error('Erro ao buscar chamados:', err);
-    } finally {
-      if(mostrarLoading) setLoading(false);
-      isFetching.current = false;
-    }
-  };
+      if (mostrarLoading) setLoading(true);
+      try {
+        const response = await api.get('/tickets');
+        setChamados(response.data.filter(c => !c.archived));
+      } catch (err) {
+        toast.error('Erro ao buscar chamados.')
+        console.error('Erro ao buscar chamados:', err);
+      } finally {
+        if (mostrarLoading) setLoading(false);
+        isFetching.current = false;
+      }
+    };
 
-  fetchChamados(); 
+    fetchChamados();
 
-  const interval = setInterval(fetchChamados, 10000); 
+    const interval = setInterval(fetchChamados, 10000);
 
-  return () => clearInterval(interval); 
-}, []);
+    return () => clearInterval(interval);
+  }, []);
 
+  if (loading) return <LoadingSpinner />;
 
-if (loading) return <LoadingSpinner />;
-
-  
   const formatDateToLocalYMD = (isoDateStr) => {
     const localDate = new Date(isoDateStr);
     const year = localDate.getFullYear();
@@ -53,17 +51,14 @@ if (loading) return <LoadingSpinner />;
     return `${year}-${month}-${day}`;
   };
 
-
   const datasComChamados = [
     ...new Set(chamados.map(ch => formatDateToLocalYMD(ch.createdAt))),
   ];
-
 
   const datasDestacadas = datasComChamados.map(dateStr => {
     const [year, month, day] = dateStr.split('-').map(Number);
     return new Date(year, month - 1, day);
   });
-
 
   const isSameDay = (date1, date2) =>
     date1.getFullYear() === date2.getFullYear() &&
